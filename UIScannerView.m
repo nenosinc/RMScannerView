@@ -50,6 +50,30 @@
     return self;
 }
 
+- (void)dealloc {
+    // Stop Running the Capture Session
+    [self.captureSession stopRunning];
+    
+    // Remove all Inputs
+    for (AVCaptureInput *input in self.captureSession.inputs) {
+        [self.captureSession removeInput:input];
+    }
+    
+    // Remove all Outputs
+    for (AVCaptureOutput *output in self.captureSession.outputs) {
+        [self.captureSession removeOutput:output];
+    }
+    
+    // Remove preview layer
+    [previewLayer removeFromSuperlayer];
+    
+    // Set objects to nil
+    self.captureSession = nil;
+    metadataOutput = nil;
+    videoInput = nil;
+    previewLayer = nil;
+}
+
 #pragma mark - Scanner Checks
 
 - (BOOL)isScanSessionInProgress {
@@ -124,8 +148,6 @@
     
     // Log the stop
     if (verboseLogging) NSLog(@"[UIScannerView] Stopped capture session");
-    
-    // Remove the animations
 }
 
 - (void)startScanSession {
@@ -179,6 +201,8 @@
     
     if (previewLayer == nil) previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.captureSession];
     previewLayer.frame = self.layer.bounds;
+    previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    previewLayer.position = CGPointMake(CGRectGetMidX(self.layer.bounds), CGRectGetMidY(self.layer.bounds));
     if ([self.layer.sublayers containsObject:previewLayer] == NO) [self.layer addSublayer:previewLayer];
 }
 

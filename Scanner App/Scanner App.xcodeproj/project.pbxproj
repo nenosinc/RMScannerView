@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		994BB5971865426A005F9EAE /* ScanBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 994BB5961865426A005F9EAE /* ScanBanner.png */; };
+		994BB59A18654271005F9EAE /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 994BB59818654271005F9EAE /* LICENSE.md */; };
+		994BB59B18654271005F9EAE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 994BB59918654271005F9EAE /* README.md */; };
 		99A314E41850253F000917FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A314E31850253F000917FA /* Foundation.framework */; };
 		99A314E618502540000917FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A314E518502540000917FA /* CoreGraphics.framework */; };
 		99A314E818502540000917FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A314E718502540000917FA /* UIKit.framework */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		994BB5961865426A005F9EAE /* ScanBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScanBanner.png; path = ../../ScanBanner.png; sourceTree = "<group>"; };
+		994BB59818654271005F9EAE /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../../LICENSE.md; sourceTree = "<group>"; };
+		994BB59918654271005F9EAE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
 		99A314E01850253F000917FA /* Scanner App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scanner App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		99A314E31850253F000917FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		99A314E518502540000917FA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -55,6 +61,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		994BB59518654260005F9EAE /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				994BB5961865426A005F9EAE /* ScanBanner.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		99A314D71850253F000917FA = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +116,9 @@
 		99A314EA18502540000917FA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				994BB59518654260005F9EAE /* Images */,
+				994BB59818654271005F9EAE /* LICENSE.md */,
+				994BB59918654271005F9EAE /* README.md */,
 				99A314EB18502540000917FA /* Scanner App-Info.plist */,
 				99A314EC18502540000917FA /* InfoPlist.strings */,
 				99A314EF18502540000917FA /* main.m */,
@@ -162,6 +179,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				994BB59B18654271005F9EAE /* README.md in Resources */,
+				994BB59A18654271005F9EAE /* LICENSE.md in Resources */,
+				994BB5971865426A005F9EAE /* ScanBanner.png in Resources */,
 				99A314FC18502540000917FA /* Images.xcassets in Resources */,
 				99A314EE18502540000917FA /* InfoPlist.strings in Resources */,
 				99A314F718502540000917FA /* Main.storyboard in Resources */,
@@ -321,6 +341,7 @@
 				99A3151418502540000917FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

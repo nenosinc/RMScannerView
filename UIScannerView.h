@@ -34,7 +34,7 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface UIScannerView : UIView <AVCaptureMetadata
  @discussion This method should be called when the encapsulating UIViewController is presented or is loaded, or at any appropriate time. A session will not automatically start when the UIScannerView is loaded (ex. by an interface file). Calling this method begins the AVCaptureSession and starts the collection of camera data - including scan data. */
 - (void)startCaptureSession;
 
-/** Starts anew scanning session and keeps the same capture session (or creates a new one if none exist)
+/** Starts a new scanning session and keeps the same capture session (or creates a new one if none exist)
  @discussion This method can be called to start a new scanning session after one has been stopped (ex. automatically after a scan). This will start a new stream of scan data. */
 - (void)startScanSession;
 
@@ -42,8 +42,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface UIScannerView : UIView <AVCaptureMetadata
  @discussion This method should be called when a scan has completed (if continuous scans are not enabled) but the scanner is still visible on screen. */
 - (void)stopScanSession;
 
-/** Stops the current barcode scanner capture session. This causes the video feed to freeze, animations to halt, and bars the scan data from being read.
- @discussion This method should be called when the encapsulating UIViewController is dismissed or is unloaded. Calling this method stops the AVCaptureSession and prevents the collection of anymore camera or hardware data - including scan data. It will also remove any animations on the view. */
+/** Stops the current barcode scanner capture session. This causes the video feed to freeze, animations to halt, and prevents the scan data from being read.
+ @discussion This method should be called when the encapsulating UIViewController is dismissed, unloaded, or deallocated. Calling this method stops the AVCaptureSession and prevents the collection of any further camera or hardware data - including scan data. It will also remove any animations on the view. */
 - (void)stopCaptureSession;
 
 /** Converts the \p codeType passed in the \p didScanCode:onCodeType: delegate method to a human readable barcode type name
