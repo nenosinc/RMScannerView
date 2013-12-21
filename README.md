@@ -120,7 +120,7 @@ The second is a device hardware lock error - an optional delegate method. It is 
 
     - (void)errorAcquiringDeviceHardwareLock:(NSError *)error;
 
-## Session Settings
+### Session Settings
 After a barcode is scanned, the scanner must decide to continuously send data to the delegate or to stop sending information after the first successful scan. Use this delegate to specify whether data should continue to be sent or just sent once. Continuous data means that `didScanCode:onCodeType:` delegate is called repeatedly until the barcode disappears or is no longer readable. 
 
 Return YES if the scanner should stop looking for barcodes and reporting them after the first successful scan. NO if the scanner should continuously scan for barcodes. Leaving this delegate method unimplemented will result in the same action as returning YES.
