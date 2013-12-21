@@ -51,6 +51,10 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface UIScannerView : UIView <AVCaptureMetadata
  @return A human-friendly barcode type name. May return \p nil if the barcode type is not recognized */
 - (NSString *)humanReadableCodeTypeForCode:(NSString *)codeType;
 
+/** Set the flash mode for the current scan session. Ending a scan session turns off the flash automatically.
+ @param flashMode The AVCaptureFlashMode which specifies the flash mode, ON, OFF, or AUTO. */
+- (void)setDeviceFlash:(AVCaptureFlashMode)flashMode;
+
 @end
 
 @class UIScannerView;

@@ -19,7 +19,9 @@
 - (void)setupMetadataOutput;
 - (void)breakdownMetadataOutput;
 - (void)setupPreviewLayer;
+
 - (void)setupCameraFocus;
+- (void)stopCameraFlash;
 
 @end
 
@@ -176,6 +178,9 @@
     
     // Breakdown the metadata output
     [self breakdownMetadataOutput];
+    
+    // Stop the camera flash
+    [self stopCameraFlash];
 }
 
 - (void)setupMetadataOutput {
@@ -222,6 +227,56 @@
     if ([device lockForConfiguration:&error]) {
         // Auto-focus the camera
         [device setFocusMode:AVCaptureFocusModeAutoFocus];
+        
+        // Unlock the hardware configuration
+        [device unlockForConfiguration];
+    } else {
+        NSLog(@"[UIScannerView] %@", error);
+        if ([[self delegate] respondsToSelector:@selector(errorAcquiringDeviceHardwareLock:)])
+            [[self delegate] errorAcquiringDeviceHardwareLock:error];
+    }
+}
+
+#pragma mark - Camera Flash
+
+- (void)setDeviceFlash:(AVCaptureFlashMode)flashMode {
+    // Grab the current device from the current capture session
+    AVCaptureDevice *device = videoInput.device;
+    
+    // Check if flash is supported
+    if (![device isFlashAvailable] && ![device isFlashModeSupported:flashMode]) return;
+    
+    // Create the error object
+    NSError *error;
+    
+    // Lock the hardware configuration to prevent other apps from changing the configuration
+    if ([device lockForConfiguration:&error]) {
+        // Set the camera flash
+        [device setFlashMode:flashMode];
+        
+        // Unlock the hardware configuration
+        [device unlockForConfiguration];
+    } else {
+        NSLog(@"[UIScannerView] %@", error);
+        if ([[self delegate] respondsToSelector:@selector(errorAcquiringDeviceHardwareLock:)])
+            [[self delegate] errorAcquiringDeviceHardwareLock:error];
+    }
+}
+
+- (void)stopCameraFlash {
+    // Grab the current device from the current capture session
+    AVCaptureDevice *device = videoInput.device;
+    
+    // Check if flash is supported
+    if (![device isFlashAvailable] && ![device isFlashActive]) return;
+    
+    // Create the error object
+    NSError *error;
+    
+    // Lock the hardware configuration to prevent other apps from changing the configuration
+    if ([device lockForConfiguration:&error]) {
+        // Set the camera flash
+        [device setFlashMode:AVCaptureFlashModeOff];
         
         // Unlock the hardware configuration
         [device unlockForConfiguration];

@@ -96,6 +96,11 @@ If needed, you can display the scanned barcode format to your user with this met
 
     NSString *barcodeType = [scannerView humanReadableCodeTypeForCode:codeType];
 
+### Camera Flash
+Turn the camera flash to ON, OFF, or AUTO for the current scan session.
+
+    [scannerView setDeviceFlash:AVCaptureFlashMode];
+
 ## Delegates
 The most important part of the UIScannerView is it's delegate. Information is sent to the delegate about scanned barcodes. Requests are also sent to the delegate to gather preferences and settings. Error messages may also be sent to the delegate.
 
