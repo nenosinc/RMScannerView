@@ -22,7 +22,7 @@
                                 <rect key="frame" x="150" y="291" width="20" height="20"/>
                                 <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <view contentMode="scaleToFill" id="DPd-cf-eQ6" customClass="UIScannerView">
+                            <view contentMode="scaleToFill" id="DPd-cf-eQ6" customClass="RMScannerView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

@@ -7,11 +7,11 @@
 //
 
 @import UIKit;
-#import "UIScannerView.h"
+#import "RMScannerView.h"
 
-@interface ViewController : UIViewController <UIScannerViewDelegate, UIAlertViewDelegate, UIBarPositioningDelegate>
+@interface ViewController : UIViewController <RMScannerViewDelegate, UIAlertViewDelegate, UIBarPositioningDelegate>
 
-@property (strong, nonatomic) IBOutlet UIScannerView *scannerView;
+@property (strong, nonatomic) IBOutlet RMScannerView *scannerView;
 @property (weak, nonatomic) IBOutlet UILabel *statusText;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sessionToggleButton;

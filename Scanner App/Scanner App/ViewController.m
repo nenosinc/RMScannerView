@@ -21,6 +21,12 @@
     // Set verbose logging to YES so we can see exactly what's going on
     [scannerView setVerboseLogging:YES];
     
+    // Set animations to YES for some nice effects
+    [scannerView setAnimateScanner:YES];
+    
+    // Set code outline to YES for a box around the scanned code
+    [scannerView setDisplayCodeOutline:YES];
+    
     // Start the capture session when the view loads - this will also start a scan session
     [scannerView startCaptureSession];
     
@@ -64,6 +70,9 @@
 }
 
 - (BOOL)shouldEndSessionAfterFirstSuccessfulScan {
+    // Return YES to only scan one barcode, and then finish - return NO to continually scan.
+    // If you plan to test the return NO functionality, it is recommended that you remove the alert view from the "didScanCode:" delegate method implementation
+    // The Display Code Outline only works if this method returns NO
     return YES;
 }
 

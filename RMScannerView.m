@@ -1,17 +1,19 @@
 //
-//  UIScannerView.m
-//  UIScannerView
+//  RMScannerView.m
+//  RMScannerView
 //
 //  Created by iRare Media on 12/3/13.
-//  Copyright (c) 2013 iRare Media. All rights reserved.
+//  Copyright (c) 2014 iRare Media. All rights reserved.
 //
 
-#import "UIScannerView.h"
+#import "RMScannerView.h"
 
-@interface UIScannerView () {
+@interface RMScannerView () {
     AVCaptureDeviceInput *videoInput;
     AVCaptureMetadataOutput *metadataOutput;
     AVCaptureVideoPreviewLayer *previewLayer;
+    UIView *laserView;
+    RMOutlineBox *boundingBox;
 }
 
 - (void)initialize;
@@ -25,8 +27,8 @@
 
 @end
 
-@implementation UIScannerView
-@synthesize delegate, verboseLogging;
+@implementation RMScannerView
+@synthesize delegate, verboseLogging, animateScanner, displayCodeOutline;
 
 #pragma mark - Initialize
 
@@ -96,30 +98,30 @@
 
 - (void)startCaptureSession {
     // Log capture session start
-    if (verboseLogging) NSLog(@"[UIScannerView] Starting Capture Session...");
+    if (verboseLogging) NSLog(@"[RMScannerView] Starting Capture Session...");
     
     NSError *error = nil;
     AVCaptureDevice *videoCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     videoInput = [AVCaptureDeviceInput deviceInputWithDevice:videoCaptureDevice error:&error];
     
     // Log video check
-    if (verboseLogging) NSLog(@"[UIScannerView] Checking for video input...");
+    if (verboseLogging) NSLog(@"[RMScannerView] Checking for video input...");
     
     if (videoInput) {
         // Log video input
-        if (verboseLogging) NSLog(@"[UIScannerView] Valid video input");
+        if (verboseLogging) NSLog(@"[RMScannerView] Valid video input");
         
         // Get the video feed from the camera and add it as an input - as long as we're not already getting a feed
         if ([self.captureSession.inputs containsObject:videoInput] == NO) [self.captureSession addInput:videoInput];
         
         // Log metadata setup
-        if (verboseLogging) NSLog(@"[UIScannerView] Setting up metadata output...");
+        if (verboseLogging) NSLog(@"[RMScannerView] Setting up metadata output...");
         
         // Start the metadata output
         [self setupMetadataOutput];
         
         // Log preview layer creation
-        if (verboseLogging) NSLog(@"[UIScannerView] Creating the preview layer...");
+        if (verboseLogging) NSLog(@"[RMScannerView] Creating the preview layer...");
         
         // Create the preview layer
         [self setupPreviewLayer];
@@ -131,61 +133,98 @@
         if ([self.captureSession isRunning] == NO) [self.captureSession startRunning];
         
         // Log capture session
-        if (verboseLogging) NSLog(@"[UIScannerView] Started Capture Session");
+        if (verboseLogging) NSLog(@"[RMScannerView] Started Capture Session");
         
-        // Begin the capture session animations
-        // [UIView animateWithDuration:0.4 delay:0.0 options:UIViewAnimationOptionRepeat animations:^{
-        // TODO: Scanner animations here
-        // } completion:nil];
+        // Start Scan
+        [self startScanSession];
+        
     } else {
-        NSLog(@"[UIScannerView] %@", error);
+        NSLog(@"[RMScannerView] Invalid video input. There is no video input, or the scanner was not able to obtain input.");
+        NSLog(@"[RMScannerView] %@", error);
         if ([self.delegate respondsToSelector:@selector(errorGeneratingCaptureSession:)])
             [self.delegate errorGeneratingCaptureSession:error];
     }
 }
 
 - (void)stopCaptureSession {
+    // Stop the scan session
+    [self stopScanSession];
+    
+    // Remove the box
+    [UIView animateWithDuration:0.2 animations:^{
+        boundingBox.alpha = 0.0;
+    }];
+    
     // Stop the capture session
     [self.captureSession stopRunning];
     
     // Log the stop
-    if (verboseLogging) NSLog(@"[UIScannerView] Stopped capture session");
+    if (verboseLogging) NSLog(@"[RMScannerView] Stopped capture session");
 }
 
 - (void)startScanSession {
-    if (verboseLogging) NSLog(@"[UIScannerView] Starting Scan Session...");
+    if (verboseLogging) NSLog(@"[RMScannerView] Starting Scan Session...");
     
     if (([self isCaptureSessionInProgress] == YES) && ([self isScanSessionInProgress] == NO)) {
-        if (verboseLogging) NSLog(@"[UIScannerView] Capture session is in progress, but not a scan session. Begginning scan session...");
+        if (verboseLogging) NSLog(@"[RMScannerView] Capture session is in progress, but not a scan session. Begginning scan session...");
         
         // Add the metadata output to the session - there is a running capture session, but no scan session
         [self setupMetadataOutput];
         
-        if (verboseLogging) NSLog(@"[UIScannerView] Scan session started");
-    } else {
+        if (verboseLogging) NSLog(@"[RMScannerView] Scan session started");
+    } else if ([self isCaptureSessionInProgress] == NO) {
+        if (verboseLogging) NSLog(@"[RMScannerView] Capture session not in progress, starting new session");
+        
         // The capture session may not be running, start it
-        if ([self isCaptureSessionInProgress] == NO) {
-            [self startCaptureSession];
-            
-            if (verboseLogging) NSLog(@"[UIScannerView] Capture session not in progress, starting new session");
-        }
+        [self startCaptureSession];
+    }
+    
+    // Begin the capture session animations
+    if (animateScanner) {
+        // Add the view to draw the bounding box for the UIView
+        boundingBox = [[RMOutlineBox alloc] initWithFrame:self.bounds];
+        boundingBox.alpha = 0.0;
+        [self addSubview:boundingBox];
+        
+        if (!laserView) laserView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 2)];
+        laserView.backgroundColor = [UIColor redColor];
+        laserView.layer.shadowColor = [UIColor redColor].CGColor;
+        laserView.layer.shadowOffset = CGSizeMake(0.5, 0.5);
+        laserView.layer.shadowOpacity = 0.6;
+        laserView.layer.shadowRadius = 1.5;
+        laserView.alpha = 0.0;
+        if (![[self subviews] containsObject:laserView]) [self addSubview:laserView];
+        
+        // Add the line
+        [UIView animateWithDuration:0.2 animations:^{
+            laserView.alpha = 1.0;
+        }];
+        
+        [UIView animateWithDuration:4.0 delay:0.0 options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut animations:^{
+            laserView.frame = CGRectMake(0, self.frame.size.height, self.frame.size.width, 2);
+        } completion:nil];
     }
 }
 
 - (void)stopScanSession {
-    // Log the stop
-    if (verboseLogging) NSLog(@"[UIScannerView] Stopped scan session");
+    // Remove the line
+    [UIView animateWithDuration:0.2 animations:^{
+        laserView.alpha = 0.0;
+    }];
     
     // Breakdown the metadata output
     [self breakdownMetadataOutput];
     
     // Stop the camera flash
     [self stopCameraFlash];
+    
+    // Log the stop
+    if (verboseLogging) NSLog(@"[RMScannerView] Stopped scan session");
 }
 
 - (void)setupMetadataOutput {
     // Log the metadata object
-    if (verboseLogging) NSLog(@"[UIScannerView] Creating metadata object");
+    if (verboseLogging) NSLog(@"[RMScannerView] Creating metadata object");
     
     if (metadataOutput == nil) metadataOutput = [[AVCaptureMetadataOutput alloc] init]; // Setup the metadata object if it doesn't already exist
     if ([self.captureSession.outputs containsObject:metadataOutput] == NO) [self.captureSession addOutput:metadataOutput]; // Add the metadata object if it hasn't been added
@@ -195,14 +234,14 @@
 
 - (void)breakdownMetadataOutput {
     // Log the breakdown
-    if (verboseLogging) NSLog(@"[UIScannerView] Breaking down metadata output");
+    if (verboseLogging) NSLog(@"[RMScannerView] Breaking down metadata output");
     
     if ([self.captureSession.outputs containsObject:metadataOutput] == YES) [self.captureSession removeOutput:metadataOutput];
 }
 
 - (void)setupPreviewLayer {
     // Log the creation of the preview layer
-    if (verboseLogging) NSLog(@"[UIScannerView] Creating the preview layer");
+    if (verboseLogging) NSLog(@"[RMScannerView] Creating the preview layer");
     
     if (previewLayer == nil) previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.captureSession];
     previewLayer.frame = self.layer.bounds;
@@ -231,7 +270,7 @@
         // Unlock the hardware configuration
         [device unlockForConfiguration];
     } else {
-        NSLog(@"[UIScannerView] %@", error);
+        NSLog(@"[RMScannerView] %@", error);
         if ([[self delegate] respondsToSelector:@selector(errorAcquiringDeviceHardwareLock:)])
             [[self delegate] errorAcquiringDeviceHardwareLock:error];
     }
@@ -257,7 +296,7 @@
         // Unlock the hardware configuration
         [device unlockForConfiguration];
     } else {
-        NSLog(@"[UIScannerView] %@", error);
+        NSLog(@"[RMScannerView] %@", error);
         if ([[self delegate] respondsToSelector:@selector(errorAcquiringDeviceHardwareLock:)])
             [[self delegate] errorAcquiringDeviceHardwareLock:error];
     }
@@ -281,7 +320,7 @@
         // Unlock the hardware configuration
         [device unlockForConfiguration];
     } else {
-        NSLog(@"[UIScannerView] %@", error);
+        NSLog(@"[RMScannerView] %@", error);
         if ([[self delegate] respondsToSelector:@selector(errorAcquiringDeviceHardwareLock:)])
             [[self delegate] errorAcquiringDeviceHardwareLock:error];
     }
@@ -312,7 +351,7 @@
         // Unlock the hardware configuration
         [device unlockForConfiguration];
     } else {
-        NSLog(@"[UIScannerView] %@", error);
+        NSLog(@"[RMScannerView] %@", error);
         if ([[self delegate] respondsToSelector:@selector(errorAcquiringDeviceHardwareLock:)])
             [[self delegate] errorAcquiringDeviceHardwareLock:error];
     }
@@ -325,10 +364,11 @@
 	for (AVMetadataObject *metadataObject in metadataObjects) {
         
         // Log the object
-        if (verboseLogging) NSLog(@"[UIScannerView] Scanned metadata object: %@", metadataObject);
+        if (verboseLogging) NSLog(@"[RMScannerView] Scanned metadata object: %@", metadataObject);
         
         // Get the AVMetadataMachineReadableCodeObject
 		AVMetadataMachineReadableCodeObject *readableObject = (AVMetadataMachineReadableCodeObject *)metadataObject;
+        AVMetadataMachineReadableCodeObject *transformedObject = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadataObject];
         
         // Call the delegate to report the scan
         if ([self.delegate respondsToSelector:@selector(didScanCode:onCodeType:)])
@@ -340,6 +380,21 @@
             if (shouldEndSession == YES) {
                 [self stopScanSession];
             } else {
+                if (displayCodeOutline) {
+                    // Update the frame on the boundingBox view, and show it
+                    [UIView animateWithDuration:0.2 animations:^{
+                        laserView.alpha = 0.0;
+                        boundingBox.frame = transformedObject.bounds;
+                        boundingBox.alpha = 1.0;
+                        boundingBox.corners = [self translatePoints:transformedObject.corners fromView:self toView:boundingBox];
+                    }];
+                    
+                    [UIView animateWithDuration:0.5 delay:2.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                        laserView.alpha = 1.0;
+                        boundingBox.alpha = 0.0;
+                    } completion:nil];
+                }
+                
                 continue;
             }
         } else {
@@ -361,6 +416,24 @@
     if (codeType == AVMetadataObjectTypeUPCECode) return @"UPCE";
     
     return nil;
+}
+
+- (NSArray *)translatePoints:(NSArray *)points fromView:(UIView *)fromView toView:(UIView *)toView {
+    NSMutableArray *translatedPoints = [NSMutableArray new];
+    
+    // The points are provided in a dictionary with keys X and Y
+    for (NSDictionary *point in points) {
+        // Let's turn them into CGPoints
+        CGPoint pointValue = CGPointMake([point[@"X"] floatValue], [point[@"Y"] floatValue]);
+        
+        // Now translate from one view to the other
+        CGPoint translatedPoint = [fromView convertPoint:pointValue toView:toView];
+        
+        // Box them up and add to the array
+        [translatedPoints addObject:[NSValue valueWithCGPoint:translatedPoint]];
+    }
+    
+    return [translatedPoints copy];
 }
 
 @end

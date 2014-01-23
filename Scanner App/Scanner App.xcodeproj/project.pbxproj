@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		992030341890AC29004AD946 /* RMOutlineBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 992030331890AC29004AD946 /* RMOutlineBox.m */; };
 		994BB5971865426A005F9EAE /* ScanBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 994BB5961865426A005F9EAE /* ScanBanner.png */; };
 		994BB59A18654271005F9EAE /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 994BB59818654271005F9EAE /* LICENSE.md */; };
 		994BB59B18654271005F9EAE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 994BB59918654271005F9EAE /* README.md */; };
@@ -19,11 +20,13 @@
 		99A314F718502540000917FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 99A314F518502540000917FA /* Main.storyboard */; };
 		99A314FA18502540000917FA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A314F918502540000917FA /* ViewController.m */; };
 		99A314FC18502540000917FA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99A314FB18502540000917FA /* Images.xcassets */; };
-		99A3151A18502551000917FA /* UIScannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A3151918502551000917FA /* UIScannerView.m */; };
+		99A3151A18502551000917FA /* RMScannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A3151918502551000917FA /* RMScannerView.m */; };
 		99A3151C18502576000917FA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A3151B18502576000917FA /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		992030321890AC29004AD946 /* RMOutlineBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMOutlineBox.h; path = ../RMOutlineBox.h; sourceTree = "<group>"; };
+		992030331890AC29004AD946 /* RMOutlineBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMOutlineBox.m; path = ../RMOutlineBox.m; sourceTree = "<group>"; };
 		994BB5961865426A005F9EAE /* ScanBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScanBanner.png; path = ../../ScanBanner.png; sourceTree = "<group>"; };
 		994BB59818654271005F9EAE /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../../LICENSE.md; sourceTree = "<group>"; };
 		994BB59918654271005F9EAE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
@@ -41,8 +44,8 @@
 		99A314F818502540000917FA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		99A314F918502540000917FA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		99A314FB18502540000917FA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		99A3151818502551000917FA /* UIScannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIScannerView.h; path = ../UIScannerView.h; sourceTree = "<group>"; };
-		99A3151918502551000917FA /* UIScannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIScannerView.m; path = ../UIScannerView.m; sourceTree = "<group>"; };
+		99A3151818502551000917FA /* RMScannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMScannerView.h; path = ../RMScannerView.h; sourceTree = "<group>"; };
+		99A3151918502551000917FA /* RMScannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMScannerView.m; path = ../RMScannerView.m; sourceTree = "<group>"; };
 		99A3151B18502576000917FA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -72,8 +75,10 @@
 		99A314D71850253F000917FA = {
 			isa = PBXGroup;
 			children = (
-				99A3151818502551000917FA /* UIScannerView.h */,
-				99A3151918502551000917FA /* UIScannerView.m */,
+				99A3151818502551000917FA /* RMScannerView.h */,
+				99A3151918502551000917FA /* RMScannerView.m */,
+				992030321890AC29004AD946 /* RMOutlineBox.h */,
+				992030331890AC29004AD946 /* RMOutlineBox.m */,
 				99A314E918502540000917FA /* Scanner App */,
 				99A314E21850253F000917FA /* Frameworks */,
 				99A314E11850253F000917FA /* Products */,
@@ -196,9 +201,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				99A314FA18502540000917FA /* ViewController.m in Sources */,
-				99A3151A18502551000917FA /* UIScannerView.m in Sources */,
+				99A3151A18502551000917FA /* RMScannerView.m in Sources */,
 				99A314F418502540000917FA /* AppDelegate.m in Sources */,
 				99A314F018502540000917FA /* main.m in Sources */,
+				992030341890AC29004AD946 /* RMOutlineBox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,26 +1,56 @@
 //
-//  UIScannerView.h
-//  UIScannerView
+//  RMScannerView.h
+//  RMScannerView
 //
 //  Created by iRare Media on 12/3/13.
-//  Copyright (c) 2013 iRare Media. All rights reserved.
+//  Copyright (c) 2014 iRare Media. All rights reserved.
 //
 
-@import AVFoundation;
 
-@class UIScannerView;
-@protocol UIScannerViewDelegate;
+#if __has_feature(objc_modules)
+    // We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports. Read more from the Modules documentation: http://clang.llvm.org/docs/Modules.html
+    @import Foundation;
+    @import UIKit;
+    @import AVFoundation;
+#else
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+    #import <AVFoundation/AVFoundation.h>
+#endif
 
-/** Barcode Scanner UIView subclass. 
+#if !__has_feature(objc_arc)
+    // Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
+    #error RMScannerView is built with Objective-C ARC. You must enable ARC for these files.
+#endif
+
+#ifndef __IPHONE_7_0
+    #error RMScannerView is built with features only available is iOS SDK 7.0 and later.
+#endif
+
+
+#import "RMOutlineBox.h"
+
+
+@class RMScannerView;
+@protocol RMScannerViewDelegate;
+
+/** A UIView subclass for scanning and reading barcodes.
  Quickly and efficiently scans a large variety of barcodes using the device's built in hardware */
-NS_CLASS_AVAILABLE_IOS(7_0) @interface UIScannerView : UIView <AVCaptureMetadataOutputObjectsDelegate>
+NS_CLASS_AVAILABLE_IOS(7_0) @interface RMScannerView : UIView <AVCaptureMetadataOutputObjectsDelegate>
 
 @property (strong) AVCaptureSession *captureSession;
 
+/// Verbose logging prints extra messages to the log which explains what's going on
 @property BOOL verboseLogging;
 
-/// The UIScannerView delegate object used to set the delegate. The delegate reports scan data, errors, and requests information from the delegate.
-@property (nonatomic, weak) IBOutlet id <UIScannerViewDelegate> delegate;
+/// Display scanner animations - red scan line moving up and down and stops when a barcode is found
+@property BOOL animateScanner;
+
+/// Display code outline - red box appears around barcode when it is detected - disappears after inactivity. Only appears if the delegate method, \p shouldEndSessionAfterFirstSuccessfulScan returns NO.
+@property BOOL displayCodeOutline;
+
+/// The RMScannerView delegate object used to set the delegate. The delegate reports scan data, errors, and requests information from the delegate.
+@property (nonatomic, weak) IBOutlet id <RMScannerViewDelegate> delegate;
 
 /** Checks if a scan session is in progress
  @return YES if a scan session is currently in progress. NO if either a scan session or a capture session are not in progress. */
@@ -31,7 +61,7 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface UIScannerView : UIView <AVCaptureMetadata
 - (BOOL)isCaptureSessionInProgress;
 
 /** Starts the current barcode scanner capture session
- @discussion This method should be called when the encapsulating UIViewController is presented or is loaded, or at any appropriate time. A session will not automatically start when the UIScannerView is loaded (ex. by an interface file). Calling this method begins the AVCaptureSession and starts the collection of camera data - including scan data. */
+ @discussion This method should be called when the encapsulating UIViewController is presented or is loaded, or at any appropriate time. A session will not automatically start when the RMScannerView is loaded (ex. by an interface file). Calling this method begins the AVCaptureSession and starts the collection of camera data - including scan data. */
 - (void)startCaptureSession;
 
 /** Starts a new scanning session and keeps the same capture session (or creates a new one if none exist)
@@ -57,10 +87,10 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface UIScannerView : UIView <AVCaptureMetadata
 
 @end
 
-@class UIScannerView;
+@class RMScannerView;
 
 /** The delegate object for the scanner reports all errors and scans, it also retieves data from the delegate about how the scanner should behave. */
-@protocol UIScannerViewDelegate <NSObject>
+@protocol RMScannerViewDelegate <NSObject>
 
 @required
 
