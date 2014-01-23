@@ -20,7 +20,7 @@ RMScannerView is a great way to integrate barcode scanning in your iOS app. Belo
 * Easily contribute to the project
 
 # Project Information
-Learn more about the project requirements, licensing, and contributions.
+Learn more about the project requirements, licensing, and contributions. Check the *Releases* section of GitHub for more specific version information.
 
 ## Requirements
 Requires Xcode 5.0.1 for use in any iOS Project. Requires a minimum of iOS 7.0 as the deployment target. Works with and is optimized for ARC and 64-bit Architecture (arm64).  

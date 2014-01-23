@@ -236,6 +236,7 @@
     // Log the breakdown
     if (verboseLogging) NSLog(@"[RMScannerView] Breaking down metadata output");
     
+    // Remove the metadata output from the capture session
     if ([self.captureSession.outputs containsObject:metadataOutput] == YES) [self.captureSession removeOutput:metadataOutput];
 }
 
@@ -243,6 +244,7 @@
     // Log the creation of the preview layer
     if (verboseLogging) NSLog(@"[RMScannerView] Creating the preview layer");
     
+    // Create the preview layer to display the video on
     if (previewLayer == nil) previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.captureSession];
     previewLayer.frame = self.layer.bounds;
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
