@@ -89,4 +89,8 @@
     return UIBarPositionTopAttached;
 }
 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [scannerView setScannerViewOrientation:toInterfaceOrientation];
+}
 @end
