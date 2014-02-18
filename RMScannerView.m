@@ -34,6 +34,12 @@
 
 - (void)initialize {
     self.captureSession = [[AVCaptureSession alloc] init];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(setScannerViewOrientation:)
+     name:UIDeviceOrientationDidChangeNotification
+     object:nil];
+
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -76,6 +82,12 @@
     metadataOutput = nil;
     videoInput = nil;
     previewLayer = nil;
+    
+    // Remove orient observer
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self
+     name:UIDeviceOrientationDidChangeNotification
+     object:nil];
 }
 
 #pragma mark - Scanner Checks
@@ -249,9 +261,7 @@
     previewLayer.frame = self.layer.bounds;
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     previewLayer.position = CGPointMake(CGRectGetMidX(self.layer.bounds), CGRectGetMidY(self.layer.bounds));
-    if ([self.delegate respondsToSelector:@selector(interfaceOrientation)]) {
-        [[previewLayer connection] setVideoOrientation:((AVCaptureVideoOrientation)[(UIViewController *)self.delegate interfaceOrientation])];
-    }
+    [[previewLayer connection] setVideoOrientation:((AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation])];
     if ([self.layer.sublayers containsObject:previewLayer] == NO) [self.layer addSublayer:previewLayer];
 }
 
@@ -441,10 +451,10 @@
     return [translatedPoints copy];
 }
 
--(void)setScannerViewOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+-(void)setScannerViewOrientation:(UIDeviceOrientation)toDeviceOrientation
 {
     if (previewLayer) {
-        [[previewLayer connection] setVideoOrientation:(AVCaptureVideoOrientation)toInterfaceOrientation];
+        [[previewLayer connection] setVideoOrientation:(AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation]];
     }
 }
 
