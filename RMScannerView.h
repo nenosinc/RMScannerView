@@ -85,9 +85,6 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface RMScannerView : UIView <AVCaptureMetadata
  @param flashMode The AVCaptureFlashMode which specifies the flash mode, ON, OFF, or AUTO. */
 - (void)setDeviceFlash:(AVCaptureFlashMode)flashMode;
 
-// Rotate Camera when device will rotate ,call this from -(void)willRotateToInterfaceOrientation:duration:
--(void)setScannerViewOrientation:(UIInterfaceOrientation)toInterfaceOrientation;
-
 @end
 
 @class RMScannerView;
