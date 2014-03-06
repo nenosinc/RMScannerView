@@ -25,8 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		992030321890AC29004AD946 /* RMOutlineBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMOutlineBox.h; path = ../RMOutlineBox.h; sourceTree = "<group>"; };
-		992030331890AC29004AD946 /* RMOutlineBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMOutlineBox.m; path = ../RMOutlineBox.m; sourceTree = "<group>"; };
+		992030321890AC29004AD946 /* RMOutlineBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj.h; name = RMOutlineBox.h; path = ../RMScannerView/RMOutlineBox.h; sourceTree = "<group>"; };
+		992030331890AC29004AD946 /* RMOutlineBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMOutlineBox.m; path = ../RMScannerView/RMOutlineBox.m; sourceTree = "<group>"; };
 		994BB5961865426A005F9EAE /* ScanBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScanBanner.png; path = ../../ScanBanner.png; sourceTree = "<group>"; };
 		994BB59818654271005F9EAE /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../../LICENSE.md; sourceTree = "<group>"; };
 		994BB59918654271005F9EAE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
@@ -44,8 +44,8 @@
 		99A314F818502540000917FA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		99A314F918502540000917FA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		99A314FB18502540000917FA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		99A3151818502551000917FA /* RMScannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMScannerView.h; path = ../RMScannerView.h; sourceTree = "<group>"; };
-		99A3151918502551000917FA /* RMScannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMScannerView.m; path = ../RMScannerView.m; sourceTree = "<group>"; };
+		99A3151818502551000917FA /* RMScannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj.h; name = RMScannerView.h; path = ../RMScannerView/RMScannerView.h; sourceTree = "<group>"; };
+		99A3151918502551000917FA /* RMScannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMScannerView.m; path = ../RMScannerView/RMScannerView.m; sourceTree = "<group>"; };
 		99A3151B18502576000917FA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
