@@ -271,17 +271,24 @@
     // Grab the current device from the current capture session
     AVCaptureDevice *device = videoInput.device;
     
-    // Check if auto focus is supported
-    if (![device isFocusPointOfInterestSupported] && ![device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) return;
-    
     // Create the error object
     NSError *error;
     
     // Lock the hardware configuration to prevent other apps from changing the configuration
     if ([device lockForConfiguration:&error]) {
-        // Auto-focus the camera
-        [device setFocusMode:AVCaptureFocusModeAutoFocus];
         
+        // Check if auto focus is supported
+        if ([device isFocusPointOfInterestSupported] && [device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+            // Auto-focus the camera
+            [device setFocusMode:AVCaptureFocusModeAutoFocus];
+        }
+        
+        // Check if auto focus range restruction is supported
+        if ([device isAutoFocusRangeRestrictionSupported]) {
+            // Configure auto-focus for near objects
+            [device setAutoFocusRangeRestriction:AVCaptureAutoFocusRangeRestrictionNear];
+        }
+    
         // Unlock the hardware configuration
         [device unlockForConfiguration];
     } else {
