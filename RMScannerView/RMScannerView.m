@@ -261,7 +261,15 @@
     previewLayer.frame = self.layer.bounds;
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     previewLayer.position = CGPointMake(CGRectGetMidX(self.layer.bounds), CGRectGetMidY(self.layer.bounds));
-    [[previewLayer connection] setVideoOrientation:((AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation])];
+    
+    if ([self.delegate respondsToSelector:@selector(orientationForCameraKeeping)]) {
+        AVCaptureVideoOrientation orientation = [self.delegate orientationForCameraKeeping];
+        [[previewLayer connection] setVideoOrientation:orientation];
+    }
+    else {
+        [[previewLayer connection] setVideoOrientation:((AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation])];
+    }
+    
     if ([self.layer.sublayers containsObject:previewLayer] == NO) [self.layer addSublayer:previewLayer];
 }
 
@@ -461,7 +469,9 @@
 -(void)setScannerViewOrientation:(UIDeviceOrientation)toDeviceOrientation
 {
     if (previewLayer) {
-        [[previewLayer connection] setVideoOrientation:(AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation]];
+        if (![self.delegate respondsToSelector:@selector(orientationForCameraKeeping)]) {
+            [[previewLayer connection] setVideoOrientation:((AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation])];
+        }
     }
 }
 

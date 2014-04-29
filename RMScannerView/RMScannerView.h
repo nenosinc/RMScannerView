@@ -114,4 +114,10 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface RMScannerView : UIView <AVCaptureMetadata
  @return YES if the scanner should stop looking for barcodes and reporting them after the first successful scan. NO if the scanner should continuously scan for barcodes - this may result in a constant stream of data from the \p didScanCode:onCodeType method. */
 - (BOOL)shouldEndSessionAfterFirstSuccessfulScan;
 
+
+/** 
+ Return a orientation for camera preivew layer.
+ */
+- (AVCaptureVideoOrientation)orientationForCameraKeeping;
+
 @end
