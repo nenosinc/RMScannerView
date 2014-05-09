@@ -288,7 +288,7 @@
         // Check if auto focus is supported
         if ([device isFocusPointOfInterestSupported] && [device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
             // Auto-focus the camera
-            [device setFocusMode:AVCaptureFocusModeAutoFocus];
+            [device setFocusMode:AVCaptureFocusModeContinuousAutoFocus];
         }
         
         // Check if auto focus range restruction is supported
