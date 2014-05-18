@@ -40,6 +40,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface RMScannerView : UIView <AVCaptureMetadata
 
 @property (strong) AVCaptureSession *captureSession;
 
+@property AVCaptureFocusMode focusMode;
+
 /// Verbose logging prints extra messages to the log which explains what's going on
 @property BOOL verboseLogging;
 

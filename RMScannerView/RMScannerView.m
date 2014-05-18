@@ -34,6 +34,7 @@
 
 - (void)initialize {
     self.captureSession = [[AVCaptureSession alloc] init];
+    self.focusMode = AVCaptureFocusModeContinuousAutoFocus;
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(setScannerViewOrientation:)
@@ -286,9 +287,9 @@
     if ([device lockForConfiguration:&error]) {
         
         // Check if auto focus is supported
-        if ([device isFocusPointOfInterestSupported] && [device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+        if ([device isFocusPointOfInterestSupported] && [device isFocusModeSupported:self.focusMode]) {
             // Auto-focus the camera
-            [device setFocusMode:AVCaptureFocusModeContinuousAutoFocus];
+            [device setFocusMode:self.focusMode];
         }
         
         // Check if auto focus range restruction is supported
@@ -367,7 +368,7 @@
     AVCaptureDevice *device = videoInput.device;
     
     // Check if auto focus is supported
-    if (![device isFocusPointOfInterestSupported] && ![device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) return;
+    if (![device isFocusPointOfInterestSupported] && ![device isFocusModeSupported:self.focusMode]) return;
     
     // Create the error object
     NSError *error;
@@ -376,7 +377,7 @@
     if ([device lockForConfiguration:&error]) {
         // Auto-focus the camera to the point the user touched
         [device setFocusPointOfInterest:touchPoint];
-        [device setFocusMode:AVCaptureFocusModeAutoFocus];
+        [device setFocusMode:self.focusMode];
         
         // Unlock the hardware configuration
         [device unlockForConfiguration];
