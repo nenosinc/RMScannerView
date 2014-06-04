@@ -85,6 +85,10 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface RMScannerView : UIView <AVCaptureMetadata
  @param flashMode The AVCaptureFlashMode which specifies the flash mode, ON, OFF, or AUTO. */
 - (void)setDeviceFlash:(AVCaptureFlashMode)flashMode;
 
+/** Set the torch mode for the current scan session. Ending a scan session turns off the torch automatically.
+ @param torchMode The AVCaptureTorchMode which specifies the torch mode, ON, OFF, or AUTO. */
+- (void)setDeviceTorch:(AVCaptureTorchMode)torchMode;
+
 @end
 
 @class RMScannerView;

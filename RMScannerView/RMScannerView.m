@@ -324,12 +324,12 @@
     }
 }
 
-- (void)stopCameraFlash {
+- (void)setDeviceTorch:(AVCaptureTorchMode)torchMode {
     // Grab the current device from the current capture session
     AVCaptureDevice *device = videoInput.device;
     
     // Check if flash is supported
-    if (![device isFlashAvailable] && ![device isFlashActive]) return;
+    if (![device isTorchAvailable] && ![device isTorchModeSupported:torchMode]) return;
     
     // Create the error object
     NSError *error;
@@ -337,7 +337,41 @@
     // Lock the hardware configuration to prevent other apps from changing the configuration
     if ([device lockForConfiguration:&error]) {
         // Set the camera flash
-        [device setFlashMode:AVCaptureFlashModeOff];
+        [device setTorchMode:torchMode];
+        
+        // Unlock the hardware configuration
+        [device unlockForConfiguration];
+    } else {
+        NSLog(@"[RMScannerView] %@", error);
+        if ([[self delegate] respondsToSelector:@selector(errorAcquiringDeviceHardwareLock:)])
+            [[self delegate] errorAcquiringDeviceHardwareLock:error];
+    }
+}
+
+- (void)stopCameraFlash {
+    // Grab the current device from the current capture session
+    AVCaptureDevice *device = videoInput.device;
+    
+    // Check if flash is supported
+    if (![device isFlashAvailable]
+		&& ![device isFlashActive]
+		&& ![device isTorchAvailable]
+		&& ![device isTorchActive]) return;
+    
+    // Create the error object
+    NSError *error;
+    
+    // Lock the hardware configuration to prevent other apps from changing the configuration
+    if ([device lockForConfiguration:&error]) {
+        // Set the camera flash
+		if (device.isFlashAvailable && device.isFlashActive)
+		{
+			[device setFlashMode:AVCaptureFlashModeOff];
+		}
+		if (device.isTorchActive && device.isTorchActive)
+		{
+			[device setTorchMode:AVCaptureTorchModeOff];
+		}
         
         // Unlock the hardware configuration
         [device unlockForConfiguration];
