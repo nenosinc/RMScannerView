@@ -49,6 +49,9 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface RMScannerView : UIView <AVCaptureMetadata
 /// Display code outline - red box appears around barcode when it is detected - disappears after inactivity. Only appears if the delegate method, \p shouldEndSessionAfterFirstSuccessfulScan returns NO.
 @property BOOL displayCodeOutline;
 
+/// Scanner line color used for scanner animations
+@property UIColor *scannerLineColor UI_APPEARANCE_SELECTOR;
+
 /// The RMScannerView delegate object used to set the delegate. The delegate reports scan data, errors, and requests information from the delegate.
 @property (nonatomic, weak) IBOutlet id <RMScannerViewDelegate> delegate;
 
