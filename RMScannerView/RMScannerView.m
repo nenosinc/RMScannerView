@@ -39,7 +39,7 @@
      selector:@selector(setScannerViewOrientation:)
      name:UIDeviceOrientationDidChangeNotification
      object:nil];
-
+	self->_scannerLineColor = [UIColor redColor];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -199,8 +199,8 @@
         [self addSubview:boundingBox];
         
         if (!laserView) laserView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 2)];
-        laserView.backgroundColor = [UIColor redColor];
-        laserView.layer.shadowColor = [UIColor redColor].CGColor;
+        laserView.backgroundColor = self.scannerLineColor;
+        laserView.layer.shadowColor = self.scannerLineColor.CGColor;
         laserView.layer.shadowOffset = CGSizeMake(0.5, 0.5);
         laserView.layer.shadowOpacity = 0.6;
         laserView.layer.shadowRadius = 1.5;
