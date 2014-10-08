@@ -88,6 +88,10 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface RMScannerView : UIView <AVCaptureMetadata
  @param flashMode The AVCaptureFlashMode which specifies the flash mode, ON, OFF, or AUTO. */
 - (void)setDeviceFlash:(AVCaptureFlashMode)flashMode;
 
+/** Set a fixed orientation for the scanner view, overriding the current device orientation.
+ @param orientation The orientation to use */
+- (void)setStaticOrientation:(UIDeviceOrientation)orientation;
+
 @end
 
 @class RMScannerView;
