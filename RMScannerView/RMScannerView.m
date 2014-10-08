@@ -14,6 +14,8 @@
     AVCaptureVideoPreviewLayer *previewLayer;
     UIView *laserView;
     RMOutlineBox *boundingBox;
+	BOOL orientationIsOverridden;
+	UIDeviceOrientation staticOrienatation;
 }
 
 - (void)initialize;
@@ -460,9 +462,16 @@
 
 -(void)setScannerViewOrientation:(UIDeviceOrientation)toDeviceOrientation
 {
-    if (previewLayer) {
+    if (previewLayer && !orientationIsOverridden) {
         [[previewLayer connection] setVideoOrientation:(AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation]];
     }
+}
+
+- (void)setStaticOrientation:(UIDeviceOrientation)orientation
+{
+	staticOrienatation = orientation;
+	[self setScannerViewOrientation:orientation];
+	orientationIsOverridden = YES;
 }
 
 @end
