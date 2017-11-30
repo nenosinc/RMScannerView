@@ -49,6 +49,12 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface RMScannerView : UIView <AVCaptureMetadata
 /// Display code outline - red box appears around barcode when it is detected - disappears after inactivity. Only appears if the delegate method, \p shouldEndSessionAfterFirstSuccessfulScan returns NO.
 @property BOOL displayCodeOutline;
 
+/// Enable autorotation - video orientation changes when device orientation did change. If enableAutorotation is NO, video orientation is defaultCaptureVideoOrientation. By default enableAutorotation is YES
+@property BOOL enableAutorotation;
+
+/// Default captureVideo orientation - capture video orientation if autorotation disabled. By default defaultCaptureVideoOrientation is AVCaptureVideoOrientationPortrait
+@property AVCaptureVideoOrientation defaultCaptureVideoOrientation;
+
 /// Scanner line color used for scanner animations
 @property UIColor *scannerLineColor UI_APPEARANCE_SELECTOR;
 
