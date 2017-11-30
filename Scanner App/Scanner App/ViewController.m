@@ -27,6 +27,10 @@
     // Set code outline to YES for a box around the scanned code
     [scannerView setDisplayCodeOutline:YES];
     
+    // Set concrete video orientation enabled
+//    [scannerView setEnableAutorotation:NO];
+//    [scannerView setDefaultCaptureVideoOrientation:AVCaptureVideoOrientationPortrait];
+    
     // Start the capture session when the view loads - this will also start a scan session
     [scannerView startCaptureSession];
     
