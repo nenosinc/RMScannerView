@@ -33,6 +33,8 @@
 #pragma mark - Initialize
 
 - (void)initialize {
+    self.defaultCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
+    self.enableAutorotation = YES;
     self.captureSession = [[AVCaptureSession alloc] init];
     [[NSNotificationCenter defaultCenter]
      addObserver:self
@@ -261,7 +263,8 @@
     previewLayer.frame = self.layer.bounds;
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     previewLayer.position = CGPointMake(CGRectGetMidX(self.layer.bounds), CGRectGetMidY(self.layer.bounds));
-    [[previewLayer connection] setVideoOrientation:((AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation])];
+    AVCaptureVideoOrientation videoOrientation = _enableAutorotation ? ((AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation]) :_defaultCaptureVideoOrientation;
+    [[previewLayer connection] setVideoOrientation:videoOrientation];
     if ([self.layer.sublayers containsObject:previewLayer] == NO) [self.layer addSublayer:previewLayer];
 }
 
@@ -461,7 +464,8 @@
 -(void)setScannerViewOrientation:(UIDeviceOrientation)toDeviceOrientation
 {
     if (previewLayer) {
-        [[previewLayer connection] setVideoOrientation:(AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation]];
+        AVCaptureVideoOrientation videoOrientation = _enableAutorotation ? ((AVCaptureVideoOrientation)[[UIDevice currentDevice] orientation]) :_defaultCaptureVideoOrientation;
+        [[previewLayer connection] setVideoOrientation:videoOrientation];
     }
 }
 
